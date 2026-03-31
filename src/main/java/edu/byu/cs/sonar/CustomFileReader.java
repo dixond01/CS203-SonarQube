@@ -11,7 +11,7 @@ class CustomFileReader {
     /**
      * The scanner that will read the dictionary
      */
-    private String path;
+    private final String path;
 
     /**
      * The sentence that will be constructed
@@ -28,7 +28,7 @@ class CustomFileReader {
      * @param fileName the file to be read in
      */
     CustomFileReader(final String fileName) {
-        path = fileName;
+        path=fileName;
         newSentence="";
         count=0;
     }
@@ -45,7 +45,7 @@ class CustomFileReader {
      */
     int howManyWordsInFile() throws FileNotFoundException {
 
-        try (Scanner s = createScanner()) {
+        try (Scanner s=createScanner()) {
             while (s.hasNext()) {
                 s.next();
                 count++;
@@ -60,12 +60,12 @@ class CustomFileReader {
      * @param index which number word should be taken back
      * @return correct word
      */
-    String returnThatWord (final int index) throws FileNotFoundException {
-        String returnWord = "";
-        try (Scanner s = createScanner()) {
+    String returnThatWord(final int index) throws FileNotFoundException {
+        String returnWord="";
+        try (Scanner s=createScanner()) {
 
-            for (int i = 0; i < index; i++) {
-                returnWord = s.next();
+            for (int i=0; i < index; i++) {
+                returnWord=s.next();
             }
         }
 
@@ -79,8 +79,8 @@ class CustomFileReader {
      * @param letter eventually will be the character we are looking for in the word
      */
     void findNewWord(final CharSequence letter) throws FileNotFoundException {
-        try (Scanner s = createScanner()) {
-            String word = s.next();
+        try (Scanner s=createScanner()) {
+            String word=s.next();
 
             while (!word.contains(letter)) {
                 word=s.next();
@@ -105,7 +105,7 @@ class CustomFileReader {
      * @param betterSentence The new sentence for the reader
      */
     void setNewSentence(final String betterSentence) {
-        newSentence = betterSentence;
+        newSentence=betterSentence;
     }
 
     /**
@@ -161,20 +161,24 @@ class CustomFileReader {
      */
     @Override
     public boolean equals(final Object object) {
-        if (object.getClass() != this.getClass()) {
+        if (object == null) {
             return false;
+        } else {
+            if (object.getClass() != this.getClass()) {
+                return false;
+            }
+
+            final CustomFileReader comparedReader=(CustomFileReader) object;
+
+            if (!comparedReader.getNewSentence().equals(newSentence)) {
+                return false;
+            }
+
+            if (comparedReader.getCount() != count) {
+                return false;
+            }
+
+            return comparedReader.getStringPath().equals(path);
         }
-
-        final CustomFileReader comparedReader = (CustomFileReader) object;
-
-        if (!comparedReader.getNewSentence().equals(newSentence)) {
-            return false;
-        }
-
-        if (comparedReader.getCount() != count) {
-            return false;
-        }
-
-        return comparedReader.getStringPath() == path;
-    }
+}
 }
