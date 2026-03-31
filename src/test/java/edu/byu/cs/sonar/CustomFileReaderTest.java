@@ -45,6 +45,44 @@ class CustomFileReaderTest {
     }
 
     @Test
+    void testHashCodeThrowsException() throws NumberFormatException{
+        assertThrows(NumberFormatException.class,  () -> sut.hashCode());
+    }
+
+    @Test
+    void testHashCodeSameHash() throws NumberFormatException,FileNotFoundException {
+        CustomFileReader sameReader = new CustomFileReader("readMe1.txt");
+        sameReader.setNewSentence("123");
+        sameReader.howManyWordsInFile();
+        sut.setNewSentence("123");
+        sut.howManyWordsInFile();
+        assertEquals(sut.hashCode(), sameReader.hashCode());
+
+    }
+
+    @Test
+    void testToString() throws NumberFormatException,FileNotFoundException {
+        CustomFileReader sameReader = new CustomFileReader("readMe1.txt");
+        sameReader.howManyWordsInFile();
+        sameReader.findNewWord("l");
+        sut.howManyWordsInFile();
+        sut.findNewWord("l");
+        assertEquals(sut.toString(), sameReader.toString());
+
+    }
+    @Test
+    void testEqualsDifferentClass() {
+        boolean result = sut.equals("Test");
+        assertFalse(result);
+    }
+
+    @Test
+    void testEqualsNullObject() {
+        CustomFileReader nullReader = null;
+        boolean result = sut.equals(nullReader);
+        assertFalse(result);
+    }
+    @Test
     void testEqualsNewSentence() {
         CustomFileReader comparedReader = new CustomFileReader("readMe2.txt");
         comparedReader.setNewSentence("Better sentence.");

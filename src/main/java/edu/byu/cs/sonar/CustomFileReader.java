@@ -135,7 +135,7 @@ class CustomFileReader {
      * @return hashcode for this specific instance of a reader
      */
     @Override
-    public int hashCode() {
+    public int hashCode() throws NumberFormatException{
         return Integer.parseInt(newSentence) * count * 3;
     }
 
